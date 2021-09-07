@@ -9,8 +9,16 @@ math-zig.wasm: math.zig
 	zig build-lib math.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name math-zig
 	@ls -l $@
 
-math-go.wasm: math.zig
+math-go.wasm: math.go
 	tinygo build -o math-go.wasm -target wasm -gc=none ./math.go
+	@ls -l $@
+
+time-zig.wasm: time.zig
+	zig build-lib time.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name time-zig
+	@ls -l $@
+
+time-go.wasm: time.go
+	tinygo build -o time-go.wasm -target wasm -gc=none ./time.go
 	@ls -l $@
 
 wasm: math-zig.wasm math-go.wasm
