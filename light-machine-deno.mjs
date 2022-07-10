@@ -1,5 +1,6 @@
+import { startTrafficLights } from "./light-machine.js";
+
 const decodeUTF8 = new TextDecoder();
-const encodeUTF8 = new TextEncoder();
 
 // const memory = new WebAssembly.Memory({
 //   initial: 65536,
@@ -33,3 +34,16 @@ WebAssembly.instantiate(await Deno.readFile("light-machine-zig.wasm"), {
 
   instance.exports.main();
 });
+
+const jsInstance = startTrafficLights({
+  waitMs: (ms) => {
+    setTimeout(() => {
+      jsInstance.next("tick");
+      jsInstance.main();
+      console.log(jsInstance.value);
+    }, ms);
+  },
+});
+
+console.log(jsInstance.value);
+jsInstance.main();
