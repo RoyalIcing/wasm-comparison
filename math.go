@@ -2,8 +2,8 @@ package main
 
 func main() {}
 
-func print(x int)
+func Print(x int)
 
-func add(a int, b int) {
+func Add(a int, b int) {
 	print(a + b)
 }

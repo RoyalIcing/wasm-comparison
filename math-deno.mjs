@@ -5,6 +5,7 @@ WebAssembly.instantiate(await Deno.readFile("math-zig.wasm"), {
     },
   },
 }).then((result) => {
+  console.log(result.instance.exports);
   const add = result.instance.exports.add;
 
   add(1, 2);
@@ -13,7 +14,7 @@ WebAssembly.instantiate(await Deno.readFile("math-zig.wasm"), {
 
 WebAssembly.instantiate(await Deno.readFile("math-go.wasm"), {
   env: {
-    "main.print": (result) => {
+    "main.Print": (result) => {
       console.log(`The result is ${result}`);
     },
   },

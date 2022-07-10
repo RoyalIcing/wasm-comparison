@@ -1,5 +1,8 @@
 export GOROOT = $(shell go env GOROOT)
 
+ls_zig:
+	ls -l *.zig *-zig.wasm
+
 hello: hello.zig
 	zig build-exe hello.zig
 
