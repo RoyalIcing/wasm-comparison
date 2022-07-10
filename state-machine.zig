@@ -27,11 +27,15 @@ const Switch = struct {
 
     state: State,
 
+    pub fn transition(self: Switch, event: Event) Switch {
+        var copy = self;
+        copy.state = event.transition(self.state);
+        return copy;
+    }
+
     pub fn next(self: Switch, eventName: [:0]const u8) Switch {
         if (Events.get(eventName)) |event| {
-            var copy = self;
-            copy.state = event.transition(self.state);
-            return copy;
+            return self.transition(event);
         }
 
         return self;
@@ -41,7 +45,7 @@ const Switch = struct {
 export var current = Switch{ .state = .off };
 
 export fn flick() void {
-    current = current.next("flick");
+    current = current.transition(.flick);
 }
 
 test "flick()" {
@@ -72,6 +76,6 @@ export fn toString() [*:0]const u8 {
 
 test "toString()" {
     try testing.expectEqualSlices(u8, mem.span(toString()), "off");
-    next("flick");
+    flick();
     try testing.expectEqualSlices(u8, mem.span(toString()), "on");
 }
