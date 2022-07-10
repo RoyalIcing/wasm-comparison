@@ -26,10 +26,12 @@ const Switch = struct {
     const Events = ComptimeStringMap(Event, .{.{ @tagName(Event.flick), .flick }});
 
     state: State,
+    change: u64 = 0,
 
     pub fn transition(self: Switch, event: Event) Switch {
         var copy = self;
         copy.state = event.transition(self.state);
+        copy.change += 1;
         return copy;
     }
 
@@ -43,6 +45,18 @@ const Switch = struct {
 };
 
 var current = Switch{ .state = .off };
+
+export fn getChange() u64 {
+    return current.change;
+}
+
+test "getChange()" {
+    try testing.expectEqual(@as(u64, 0), getChange());
+    flick();
+    try testing.expectEqual(@as(u64, 1), getChange());
+    flick();
+    try testing.expectEqual(@as(u64, 2), getChange());
+}
 
 export fn flick() void {
     current = current.transition(.flick);

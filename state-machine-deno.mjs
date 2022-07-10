@@ -12,22 +12,25 @@ WebAssembly.instantiate(await Deno.readFile("state-machine-zig.wasm"), {
       console.log(`The result is ${result}`);
     },
   },
-}).then((result) => {
-  const memory = new Uint8Array(result.instance.exports.memory.buffer);
+}).then(({ instance }) => {
+  const memory = new Uint8Array(instance.exports.memory.buffer);
 
   function getStringAt(ptr) {
     const endPtr = memory.indexOf(0, ptr);
     return decodeUTF8.decode(memory.subarray(ptr, endPtr));
   }
 
-  console.log(getStringAt(result.instance.exports.toString()));
+  console.log(instance.exports.getChange());
+  console.log(getStringAt(instance.exports.toString()));
   
-  result.instance.exports.flick();
-  console.log(getStringAt(result.instance.exports.toString()));
+  instance.exports.flick();
+  console.log(instance.exports.getChange());
+  console.log(getStringAt(instance.exports.toString()));
   
   encodeUTF8.encodeInto("flickk", memory);
   // encodeUTF8.encodeInto("flick\u{00}", memory);
   encodeUTF8.encodeInto("flick\0", memory);
-  result.instance.exports.next(memory);
-  console.log(getStringAt(result.instance.exports.toString()));
+  instance.exports.next(memory);
+  console.log(instance.exports.getChange());
+  console.log(getStringAt(instance.exports.toString()));
 });
