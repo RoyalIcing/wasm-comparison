@@ -1,5 +1,6 @@
 ## Links
 
+- https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format
 - https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html
 - https://rustwasm.github.io/wasm-bindgen/contributing/design/exporting-rust.html
 - https://hacks.mozilla.org/2017/07/memory-in-webassembly-and-why-its-safer-than-you-think/

@@ -23,6 +23,12 @@ strings-zig.wasm: strings.zig
 	@ls -l $@
 	@shasum -a 256 $@
 
+state-machine-zig.wasm: state-machine.zig
+	rm -rf zig-cache/
+	zig build-lib state-machine.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name state-machine-zig
+	@ls -l $@
+	@shasum -a 256 $@
+
 math-zig.wasm: math.zig
 	zig build-lib math.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name math-zig
 	@ls -l $@
@@ -51,6 +57,10 @@ deno:
 deno_strings:
 	deno run --allow-read strings-deno.mjs
 	deno bench --unstable --allow-read strings-deno-bench.mjs
+
+deno_state_machine:
+	deno run --allow-read state-machine-deno.mjs
+	#deno bench --unstable --allow-read strings-deno-bench.mjs
 
 node:
 	@node math-node.mjs
