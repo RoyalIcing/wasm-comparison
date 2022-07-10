@@ -18,6 +18,11 @@ constants-zig.wasm: constants.zig
 	zig build-lib constants.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name constants-zig
 	@ls -l $@
 
+strings-zig.wasm: strings.zig
+	zig build-lib strings.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name strings-zig
+	@ls -l $@
+	@shasum -a 256 $@
+
 math-zig.wasm: math.zig
 	zig build-lib math.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name math-zig
 	@ls -l $@
@@ -42,6 +47,10 @@ wasm: math-zig.wasm math-go.wasm
 
 deno:
 	@deno run --allow-read math-deno.mjs
+
+deno_strings:
+	deno run --allow-read strings-deno.mjs
+	deno bench --unstable --allow-read strings-deno-bench.mjs
 
 node:
 	@node math-node.mjs

@@ -18,3 +18,7 @@
 - https://github.com/fastly/Viceroy
 - https://github.com/jedisct1/zigly
 - https://wasmbyexample.dev/examples/exports/exports.assemblyscript.en-us.html
+
+### Zig
+
+- https://www.huy.rocks/everyday/01-04-2022-zig-strings-in-5-minutes
