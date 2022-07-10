@@ -62,6 +62,10 @@ deno_state_machine:
 	deno run --allow-read state-machine-deno.mjs
 	#deno bench --unstable --allow-read strings-deno-bench.mjs
 
+test_state_machine_zig: state-machine.zig
+	#rm -rf zig-cache/
+	zig test state-machine.zig
+
 node:
 	@node math-node.mjs
 
