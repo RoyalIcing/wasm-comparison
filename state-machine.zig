@@ -42,7 +42,7 @@ const Switch = struct {
     }
 };
 
-export var current = Switch{ .state = .off };
+var current = Switch{ .state = .off };
 
 export fn flick() void {
     current = current.transition(.flick);

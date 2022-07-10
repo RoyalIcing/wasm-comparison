@@ -1,4 +1,5 @@
 const decodeUTF8 = new TextDecoder();
+const encodeUTF8 = new TextEncoder();
 
 // const memory = new WebAssembly.Memory({
 //   initial: 65536,
@@ -20,10 +21,13 @@ WebAssembly.instantiate(await Deno.readFile("state-machine-zig.wasm"), {
   }
 
   console.log(getStringAt(result.instance.exports.toString()));
-  console.log(memory[result.instance.exports.current.value]);
   
   result.instance.exports.flick();
-
   console.log(getStringAt(result.instance.exports.toString()));
-  console.log(memory[result.instance.exports.current.value]);
+  
+  encodeUTF8.encodeInto("flickk", memory);
+  // encodeUTF8.encodeInto("flick\u{00}", memory);
+  encodeUTF8.encodeInto("flick\0", memory);
+  result.instance.exports.next(memory);
+  console.log(getStringAt(result.instance.exports.toString()));
 });
