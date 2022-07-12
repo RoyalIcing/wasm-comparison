@@ -1,4 +1,4 @@
-function startSwitch() {
+export function startSwitch() {
     let count = 0;
     let state = "off";
 
