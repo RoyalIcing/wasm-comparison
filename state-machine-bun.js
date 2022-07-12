@@ -1,18 +1,15 @@
+import { file } from 'bun';
+
 const decodeUTF8 = new TextDecoder();
 const encodeUTF8 = new TextEncoder();
 
-// const memory = new WebAssembly.Memory({
-//   initial: 65536,
-//   maximum: 65536,
-// });
-
 console.time('instantiate wasm');
-const { instance } = await WebAssembly.instantiate(await Deno.readFile("state-machine-zig.wasm"), {
-  env: {
-    print: (result) => {
-      console.log(`The result is ${result}`);
+const { instance } = await WebAssembly.instantiate(await file("state-machine-zig.wasm").arrayBuffer(), {
+    env: {
+        print: (result) => {
+            console.log(`The result is ${result}`);
+        },
     },
-  },
 });
 console.timeEnd('instantiate wasm');
 
@@ -20,8 +17,8 @@ console.time('execute wasm');
 const memory = new Uint8Array(instance.exports.memory.buffer);
 
 function getStringAt(ptr) {
-  const endPtr = memory.indexOf(0, ptr);
-  return decodeUTF8.decode(memory.subarray(ptr, endPtr));
+    const endPtr = memory.indexOf(0, ptr);
+    return decodeUTF8.decode(memory.subarray(ptr, endPtr));
 }
 
 console.log(instance.exports.getChange());

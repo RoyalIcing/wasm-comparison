@@ -29,6 +29,13 @@ state-machine-zig.wasm: state-machine.zig
 	@ls -l $@
 	@shasum -a 256 $@
 
+state-machine-zig-simple.wasm: state-machine-simple.zig
+	rm -rf zig-cache/
+	zig build-lib state-machine-simple.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name state-machine-zig-simple
+	@ls -l state-machine-zig-simple.wasm state-machine-zig.wasm
+	@shasum -a 256 state-machine-zig-simple.wasm
+	@shasum -a 256 state-machine-zig.wasm
+
 light-machine-zig.wasm: light-machine.zig
 	rm -rf zig-cache/
 	zig build-lib light-machine.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name light-machine-zig
@@ -67,6 +74,9 @@ deno_strings:
 deno_state_machine:
 	deno run --allow-read state-machine-deno.mjs
 	#deno bench --unstable --allow-read strings-deno-bench.mjs
+
+bun_state_machine:
+	bun run state-machine-bun.js
 
 test_state_machine_zig: state-machine.zig
 	#rm -rf zig-cache/
