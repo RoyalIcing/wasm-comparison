@@ -62,6 +62,14 @@ time-go.wasm: time.go
 	tinygo build -o time-go.wasm -target wasm -gc=none ./time.go
 	@ls -l $@
 
+external-regexp-zig.wasm: external-regexp.zig
+	rm -rf zig-cache/
+	#zig test external-regexp.zig
+	zig build-lib external-regexp.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name external-regexp-zig
+	@ls -l $@
+	deno run --allow-read external-regexp-deno.mjs
+	deno bench --unstable --allow-read external-regexp-deno-bench.mjs
+
 wasm: math-zig.wasm math-go.wasm
 
 deno:
