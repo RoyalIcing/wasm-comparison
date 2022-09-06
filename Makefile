@@ -67,6 +67,7 @@ external-regexp-zig.wasm: external-regexp.zig
 	#zig test external-regexp.zig
 	zig build-lib external-regexp.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name external-regexp-zig
 	@ls -l $@
+	@shasum -a 256 $@
 	deno run --allow-read external-regexp-deno.mjs
 	deno bench --unstable --allow-read external-regexp-deno-bench.mjs
 
