@@ -1,3 +1,15 @@
+# WebAssembly Comparison
+
+How do different languages decide to represent things in WebAssembly?
+
+This project uses a Makefile to define tasks to compile each `.wasm` file. To compile a particular `.wasm` file, run passing the file name to `make` like so:
+
+```sh
+make math-zig.wasm
+make math-go.wasm
+make math-rust.wasm
+```
+
 ## Links
 
 - https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format

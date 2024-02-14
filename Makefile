@@ -7,7 +7,7 @@ hello: hello.zig
 	zig build-exe hello.zig
 
 hello-zig.wasm: hello.zig
-	zig build-lib hello.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name hello-zig
+	zig build-lib hello.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name hello-zig
 	@ls -l $@
 
 hello-as.wasm: hello.ts
@@ -15,35 +15,47 @@ hello-as.wasm: hello.ts
 	@ls -l $@
 
 constants-zig.wasm: constants.zig
-	zig build-lib constants.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name constants-zig
+	zig build-lib constants.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name constants-zig
 	@ls -l $@
 
 strings-zig.wasm: strings.zig
-	zig build-lib strings.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name strings-zig
+	zig build-lib strings.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name strings-zig
+	@ls -l $@
+	@shasum -a 256 $@
+
+is-valid-filename-zig.wasm: is-valid-filename.zig
+	zig test is-valid-filename.zig
+	zig build-lib is-valid-filename.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name is-valid-filename-zig
+	@ls -l $@
+	@shasum -a 256 $@
+
+f32-zig.wasm: f32.zig
+	zig test f32.zig
+	zig build-lib f32.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name f32-zig
 	@ls -l $@
 	@shasum -a 256 $@
 
 state-machine-zig.wasm: state-machine.zig
 	rm -rf zig-cache/
-	zig build-lib state-machine.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name state-machine-zig
+	zig build-lib state-machine.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name state-machine-zig
 	@ls -l $@
 	@shasum -a 256 $@
 
 state-machine-zig-simple.wasm: state-machine-simple.zig
 	rm -rf zig-cache/
-	zig build-lib state-machine-simple.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name state-machine-zig-simple
+	zig build-lib state-machine-simple.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name state-machine-zig-simple
 	@ls -l state-machine-zig-simple.wasm state-machine-zig.wasm
 	@shasum -a 256 state-machine-zig-simple.wasm
 	@shasum -a 256 state-machine-zig.wasm
 
 light-machine-zig.wasm: light-machine.zig
 	rm -rf zig-cache/
-	zig build-lib light-machine.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name light-machine-zig
+	zig build-lib light-machine.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name light-machine-zig
 	@ls -l $@
 	@shasum -a 256 $@
 
 math-zig.wasm: math.zig
-	zig build-lib math.zig -target wasm32-freestanding -dynamic -O ReleaseSmall --name math-zig
+	zig build-lib math.zig -target wasm32-freestanding -dynamic -rdynamic -O ReleaseSmall --name math-zig
 	@ls -l $@
 
 math-go.wasm: math.go

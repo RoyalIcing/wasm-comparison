@@ -1,5 +1,3 @@
-// const std = @import("std");
-
 const PI = 3.1415;
 
 const ANSWER = 42;
